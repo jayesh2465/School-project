@@ -2,7 +2,7 @@ from tabulate import tabulate as tb
 import mysql.connector as con
 
 # Establishing a connection to the MySQL database
-db_connection = con.connect(host="localhost", user="root", password="jayesh24", database="restaurant_management")
+db_connection = con.connect(host="localhost", user="root", password="jayesh24")
 db_cursor = db_connection.cursor()
 
 # Function to execute SQL queries
@@ -20,12 +20,31 @@ execute_query("CREATE TABLE IF NOT EXISTS menu(ID INT PRIMARY KEY, ITEM_NAME VAR
 execute_query("CREATE TABLE IF NOT EXISTS feedback(customer_name varchar(20),feedback varchar(100))")
 # Function to display the menu
 def view_menu():
-     print("""
-     Menu:""")
-     query = "SELECT * FROM menu"
+     print("Menu:")
+     query="select * from menu"
      execute_query(query)
      menu_items = db_cursor.fetchall()
-     menu=f"{tb(menu_items, ['ID', 'ITEM NAME', 'PRICE', 'ITEM TYPE'], 'simple_grid')}"
+     if menu_items==[]:
+          list=[[1,"SHAHI PANEER",650,"VEG"],
+          [2,"CHOLE BATHURE",400,"VEG"],
+          [3,"LITTI CHOKHA",500,"VEG"],
+          [4,"PANEER MAKHNI",550,"VEG"],
+          [5,"STEAMED MOMO",160,"VEG"],
+          [6,"FRIED MOMO",190,"VEG"],
+          [7,"PANEER MOMO",250,"VEG"],
+          [8,"STRAWBERRY SHAKE",190,"BEVERAGE"],
+          [9,"COFFEE",50,"BEVERAGE"],
+          [10,"MILKSHAKE",80,"BEVERAGE"]]
+          for i in list:
+               query="insert into menu values({},'{}',{},'{}')".format(i[0],i[1],i[2],i[3])
+               execute_query(query)
+               db_connection.commit()
+               query="select * from menu"
+               execute_query(query)
+               menu_items = db_cursor.fetchall()
+          menu=f"{tb(menu_items, ['ID', 'ITEM NAME', 'PRICE', 'ITEM TYPE'], 'simple_grid')}"
+     else:
+         menu=f"{tb(menu_items, ['ID', 'ITEM NAME', 'PRICE', 'ITEM TYPE'], 'simple_grid')}"
      return menu_items,menu
 
 # Function for customer registration
