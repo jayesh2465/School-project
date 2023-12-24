@@ -34,7 +34,8 @@ def view_menu():
           [7,"PANEER MOMO",250,"VEG"],
           [8,"STRAWBERRY SHAKE",190,"BEVERAGE"],
           [9,"COFFEE",50,"BEVERAGE"],
-          [10,"MILKSHAKE",80,"BEVERAGE"]]
+          [10,"MILKSHAKE",80,"BEVERAGE"]
+,[11,"ROTI(4 PIECES)",20,"VEG"]]
           for i in list:
                query="insert into menu values({},'{}',{},'{}')".format(i[0],i[1],i[2],i[3])
                execute_query(query)
